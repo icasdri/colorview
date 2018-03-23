@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <!-- Copyright 2018 icasdri. See https://github.com/icasdri/colorview for details. -->
+<title>colorview</title>
 <style>
 body {
     text-align: center;
@@ -15,25 +16,33 @@ body {
     margin-top: calc(50vh - 2.4em);
     margin-left: auto;
     margin-right: auto;
+    padding-left: 1.66em;
+    padding-right: 1.66em;
 }
 #warn {
-    font-size: 1.8em;
-    margin-top: 0.5em;
+    font-size: 1.5em;
     text-align: center;
+    vertical-align: middle;
+    margin-left: -1.4em;
+    padding-bottom: 0.17em;
     color: red;
 }
-#bad {
+#bad, #stage {
     display: none;
 }
 </style>
 </head>
 <body>
-<input type='text' id='color' value='#deadbeef'>
-<div id='warn'>&#9888;</div>
-<div id='bad' style='bad'>
+<div>
+    <input type='text' id='color' value='#deadbeef'>
+    <span id='warn'>&#9888;</span>
+</div>
+<div id='stage'></div>
+<div id='bad' style='bad'></div>
 <script>
     var color = document.getElementById('color');
     var warn = document.getElementById('warn');
+    var stage = document.getElementById('stage');
     var bad = document.getElementById('bad');
     var badsty = window.getComputedStyle(bad)['background-color'];
 
@@ -43,16 +52,20 @@ body {
         s = s.replace(/^([0-9a-f]+)$/, function(m, v) {
             return '#' + v;
         });
-        document.body.setAttribute('style', 'background-color: ' + s);
+        stage.setAttribute('style', 'background-color: ' + s);
     };
 
     var observer = new MutationObserver(function() {
-        var computed = window.getComputedStyle(document.body)['background-color'];
-        warn.setAttribute('style',
-            computed == badsty ? 'display: default' : 'display: none');
+        var computed = window.getComputedStyle(stage)['background-color'];
+        if (computed == badsty) {
+            warn.setAttribute('style', 'visibility: inherit');
+        } else {
+            warn.setAttribute('style', 'visibility: hidden');
+            document.body.setAttribute('style', 'background-color: ' + computed);
+        }
     });
 
-    observer.observe(document.body, {
+    observer.observe(stage, {
         attributes: true,
         attributeFilter: ['style']
     });
