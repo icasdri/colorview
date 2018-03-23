@@ -52,6 +52,9 @@ body {
         s = s.replace(/^([0-9a-f]+)$/, function(m, v) {
             return '#' + v;
         });
+        if (s == '') {
+            s = 'white'
+        }
         stage.setAttribute('style', 'background-color: ' + s);
     };
 
