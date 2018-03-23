@@ -4,20 +4,23 @@
 <meta charset="UTF-8">
 <!-- Copyright 2018 icasdri. See https://github.com/icasdri/colorview for details. -->
 <style>
+body {
+    text-align: center;
+}
 #color {
     font-size: 1.1em;
     text-align: center;
     height: 2.4em;
     width: 14em;
-    margin-top: calc(50vh - 1.2em);
-    margin-left: calc(50vw - 7em);
+    margin-top: calc(50vh - 2.4em);
+    margin-left: auto;
+    margin-right: auto;
 }
 #warn {
     font-size: 1.8em;
-    position: absolute;
+    margin-top: 0.5em;
+    text-align: center;
     color: red;
-    left: calc(50vw + 3.8em);
-    top: calc(50vh - 1.27em);
 }
 #bad {
     display: none;
@@ -26,7 +29,7 @@
 </head>
 <body>
 <input type='text' id='color' value='#deadbeef'>
-<p id='warn'>&#9888;</p>
+<div id='warn'>&#9888;</div>
 <div id='bad' style='bad'>
 <script>
     var color = document.getElementById('color');
