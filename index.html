@@ -49,7 +49,7 @@ body {
     var handler = function() {
         var s = color.value;
         s = s.replace(/^0x/, '#');
-        s = s.replace(/^([0-9a-f]+)$/, function(m, v) {
+        s = s.replace(/^([0-9A-Fa-f]+)$/, function(m, v) {
             return '#' + v;
         });
         if (s == '') {
