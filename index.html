@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<!-- Copyright 2018 icasdri. See https://github.com/icasdri/colorview for details. -->
+<style>
+#color {
+    font-size: 1.1em;
+    text-align: center;
+    height: 2.6em;
+    width: 14em;
+    margin-top: calc(50vh - 1.3em);
+    margin-left: calc(50vw - 7em);
+}
+#warn {
+    font-size: 1.8em;
+    position: absolute;
+    color: red;
+    left: calc(50vw + 3.4em);
+    top: calc(50vh - 1.33em);
+}
+#bad {
+    display: none;
+}
+</style>
+</head>
+<body>
+<input type='text' id='color' value='#deadbeef'>
+<p id='warn'>&#9888;</p>
+<div id='bad' style='bad'>
+<script>
+    var color = document.getElementById('color');
+    var warn = document.getElementById('warn');
+    var bad = document.getElementById('bad');
+    var badsty = window.getComputedStyle(bad)['background-color'];
+
+    var handler = function() {
+        var s = color.value;
+        s = s.replace(/^0x/, '#');
+        s = s.replace(/^([0-9a-f]+)$/, function(m, v) {
+            return '#' + v;
+        });
+        document.body.setAttribute('style', 'background-color: ' + s);
+    };
+
+    var observer = new MutationObserver(function() {
+        var computed = window.getComputedStyle(document.body)['background-color'];
+        warn.setAttribute('style',
+            computed == badsty ? 'display: default' : 'display: none');
+    });
+
+    observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['style']
+    });
+
+    color.addEventListener('input', handler);
+    handler();
+</script>
+</body>
+</html>
